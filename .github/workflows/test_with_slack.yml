@@ -1,0 +1,44 @@
+name: Run Tests and Notify Slack
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Run Tests
+      id: tests
+      run: |
+        dotnet test
+        echo "status=$?" >> $GITHUB_ENV
+
+  notify-slack:
+    runs-on: ubuntu-latest
+    needs: run-tests
+    steps:
+    - name: Send Slack Notification
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # Configurez votre webhook Slack
+      run: |
+        if [[ ${{ env.status }} -eq 0 ]]; then
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"🌞 Tests réussis \n ![Success](https://media.giphy.com/media/3og0IPxMM0erATueVW/giphy.gif)"}' $SLACK_WEBHOOK_URL
+        else
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"⛈️ Tests échoués \n ![Failure](https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif)"}' $SLACK_WEBHOOK_URL

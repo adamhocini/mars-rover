@@ -1,0 +1,25 @@
+name: Block Invalid Commits
+
+on:
+  push:
+    branches:
+      - main # Branche à surveiller
+
+jobs:
+  check-commit-message:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Verify commit message
+      run: |
+        emoji_pattern="🚀|🌌|🪐|✨|🌠|🌙" # Ajoutez d'autres emojis spatiaux si nécessaire
+        commits=$(git log --format=%s ${{ github.event.before }}..${{ github.sha }})
+        for commit in $commits; do
+          if [[ ! $commit =~ $emoji_pattern ]]; then
+            echo "Le commit '$commit' ne contient pas un emoji spatial."
+            exit 1
+          fi
+        done
