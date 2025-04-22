@@ -9,12 +9,9 @@ on:
       - main
 
 jobs:
-show-secret:
+  run-tests:
     runs-on: ubuntu-latest
-    steps: 
-    - name: show secret
-      run: echo ${{ secrets.chut}} # Configurez votre webhook Slack
-run-tests:
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -37,11 +34,13 @@ run-tests:
     runs-on: ubuntu-latest
     needs: run-tests
     steps:
-    - name: Send Slack Notification
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.https://hooks.slack.com/services/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 }} # Configurez votre webhook Slack
-      run: | 
-        if [[ ${{ env.status }} -eq 0 ]]; then
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"🌞 Tests réussis \n ![Success](https://media.giphy.com/media/3og0IPxMM0erATueVW/giphy.gif)"}' $SLACK_WEBHOOK_URL
-        else
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"⛈️ Tests échoués \n ![Failure](https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif)"}' $SLACK_WEBHOOK_URL
+    - name: show secret
+      run: echo ${{ secrets.chut}} # Configurez votre webhook Slack
+    #- name: Send Slack Notification
+     # env:
+      #  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # Configurez votre webhook Slack
+      #run: |
+       # if [[ ${{ env.status }} -eq 0 ]]; then
+        #  curl -X POST -H 'Content-type: application/json' --data '{"text":"🌞 Tests réussis \n ![Success](https://media.giphy.com/media/3og0IPxMM0erATueVW/giphy.gif)"}' $SLACK_WEBHOOK_URL
+        #else
+        #  curl -X POST -H 'Content-type: application/json' --data '{"text":"⛈️ Tests échoués \n ![Failure](https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif)"}' $SLACK_WEBHOOK_URL
