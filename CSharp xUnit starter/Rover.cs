@@ -3,6 +3,7 @@ namespace CSharp_xUnit_starter;
 public class Rover
 {
     public Coordinates Coordinates { get; }
+    
 
     public Rover(int x, int y, Direction direction)
     {
