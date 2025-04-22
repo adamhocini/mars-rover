@@ -1,0 +1,28 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main # Remplacez par la branche sur laquelle vous voulez exécuter les tests
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0 # Remplacez par la version de .NET utilisée dans votre projet
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Run Tests
+      run: dotnet test
