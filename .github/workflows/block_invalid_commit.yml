@@ -3,7 +3,7 @@ name: Block Invalid Commits
 on:
   push:
     branches:
-      - main # Branche à surveiller
+      - main
 
 jobs:
   check-commit-message:
@@ -15,7 +15,7 @@ jobs:
 
     - name: Verify commit message
       run: |
-        emoji_pattern="🚀|🌌|🪐|✨|🌠|🌙" # Ajoutez d'autres emojis spatiaux si nécessaire
+        emoji_pattern="🚀|🌌|🪐|✨|🌠|🌙"
         commits=$(git log --format=%s ${{ github.event.before }}..${{ github.sha }})
         for commit in $commits; do
           if [[ ! $commit =~ $emoji_pattern ]]; then

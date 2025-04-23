@@ -35,10 +35,10 @@ jobs:
     needs: run-tests
     steps:
     - name: show secret
-      run: echo ${{ secrets.chut}} # Configurez votre webhook Slack
+      run: echo ${{ secrets.CHUT }} # Configurez votre webhook Slack
     #- name: Send Slack Notification
      # env:
-      #  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # Configurez votre webhook Slack
+      #  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} 
       #run: |
        # if [[ ${{ env.status }} -eq 0 ]]; then
         #  curl -X POST -H 'Content-type: application/json' --data '{"text":"🌞 Tests réussis \n ![Success](https://media.giphy.com/media/3og0IPxMM0erATueVW/giphy.gif)"}' $SLACK_WEBHOOK_URL
